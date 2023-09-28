@@ -13,6 +13,7 @@ from .products import (
     ProductTypeCountableConnection,
     ProductVariant,
     ProductVariantCountableConnection,
+    CustomAttributeType,
 )
 
 __all__ = [
@@ -30,4 +31,5 @@ __all__ = [
     "DigitalContent",
     "DigitalContentCountableConnection",
     "DigitalContentUrl",
+    "CustomAttributeType",
 ]
