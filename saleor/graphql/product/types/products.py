@@ -157,9 +157,6 @@ destination_address_argument = graphene.Argument(
     ),
 )
 
-class CustomAttributeType(graphene.ObjectType):
-    key = graphene.String()
-    value = graphene.String()
 
 class BasePricingInfo(BaseObjectType):
     on_sale = graphene.Boolean(description="Whether it is in sale or not.")

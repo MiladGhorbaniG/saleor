@@ -18,7 +18,6 @@ from measurement.measures import Weight
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
 from prices import Money
-from jsonfield import JSONField
 
 from ..channel.models import Channel
 from ..core.db.fields import SanitizedJSONField
@@ -221,26 +220,6 @@ class Product(SeoModel, ModelWithMetadata, ModelWithExternalReference):
     )
 
     objects = managers.ProductManager()
-    
-    # Add a JSONField to store custom attributes
-    custom_attributes = JSONField(blank=True, null=True)
-
-    def get_custom_attribute(self, attribute_name):
-        # Helper method to retrieve a specific custom attribute
-        return self.custom_attributes.get(attribute_name)
-
-    def set_custom_attribute(self, attribute_name, value):
-        # Helper method to set a custom attribute
-        if not self.custom_attributes:
-            self.custom_attributes = {}
-        self.custom_attributes[attribute_name] = value
-        self.save()
-
-    def delete_custom_attribute(self, attribute_name):
-        # Helper method to delete a custom attribute
-        if self.custom_attributes and attribute_name in self.custom_attributes:
-            del self.custom_attributes[attribute_name]
-            self.save()
 
     class Meta:
         app_label = "product"

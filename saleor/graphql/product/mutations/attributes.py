@@ -25,61 +25,8 @@ from ...core.inputs import ReorderInput
 from ...core.mutations import BaseMutation
 from ...core.types import BaseInputObjectType, NonNullList, ProductError
 from ...core.utils.reordering import perform_reordering
-from ...product.types import Product, ProductType, ProductVariant, CustomAttributeType
+from ...product.types import Product, ProductType, ProductVariant
 from ..enums import ProductAttributeType
-
-class CreateProductAttribute(graphene.Mutation):
-    class Arguments:
-        input = ProductAttributeInput(required=True)
-
-    success = graphene.Boolean()
-    product = graphene.Field(Product)
-
-    @staticmethod
-    def mutate(root, info, input):
-        product_id = input.product_id
-        key = input.key
-        value = input.value
-        
-        # Implement the logic to create the custom attribute for the product
-        # You may need to handle errors, permissions, and validation here
-        
-        return CreateProductAttribute(success=True, product=product)
-
-class UpdateProductAttribute(graphene.Mutation):
-    class Arguments:
-        input = ProductAttributeInput(required=True)
-
-    success = graphene.Boolean()
-    product = graphene.Field(Product)
-
-    @staticmethod
-    def mutate(root, info, input):
-        product_id = input.product_id
-        key = input.key
-        value = input.value
-        
-        # Implement the logic to update the custom attribute for the product
-        # You may need to handle errors, permissions, and validation here
-        
-        return UpdateProductAttribute(success=True, product=product)
-
-class DeleteProductAttribute(graphene.Mutation):
-    class Arguments:
-        input = ProductAttributeInput(required=True)
-
-    success = graphene.Boolean()
-    product = graphene.Field(Product)
-
-    @staticmethod
-    def mutate(root, info, input):
-        product_id = input.product_id
-        key = input.key
-        
-        # Implement the logic to delete the custom attribute for the product
-        # You may need to handle errors, permissions, and validation here
-        
-        return DeleteProductAttribute(success=True, product=product)
 
 
 class ProductAttributeAssignInput(BaseInputObjectType):

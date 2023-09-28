@@ -1,6 +1,4 @@
 import graphene
-from graphene import ObjectType, Field, List, ID, String 
-from ...product.models import Product
 
 from ...permission.enums import ProductPermissions
 from ...permission.utils import has_one_of_permissions
@@ -48,7 +46,6 @@ from .bulk_mutations import (
 )
 from .dataloaders.products import CategoryByIdLoader, CategoryBySlugLoader
 from .filters import (
-    ProductAttributeInput,
     CategoryFilterInput,
     CategoryWhereInput,
     CollectionFilterInput,
@@ -89,9 +86,6 @@ from .mutations import (
     VariantMediaUnassign,
 )
 from .mutations.attributes import (
-    CreateProductAttribute,
-    UpdateProductAttribute,
-    DeleteProductAttribute,
     ProductAttributeAssign,
     ProductAttributeAssignmentUpdate,
     ProductAttributeUnassign,
@@ -145,13 +139,9 @@ from .types import (
     ProductTypeCountableConnection,
     ProductVariant,
     ProductVariantCountableConnection,
-    CustomAttributeType
 )
 from .utils import check_for_sorting_by_rank
 
-class CustomAttributeType(graphene.ObjectType):
-    key = String()  
-    value = String() 
 
 class ProductQueries(graphene.ObjectType):
     digital_content = PermissionsField(
@@ -342,28 +332,6 @@ class ProductQueries(graphene.ObjectType):
         ],
         doc_category=DOC_CATEGORY_PRODUCTS,
     )
-
-    productAttributes = Field(
-        List(CustomAttributeType),
-        attributes=List(ProductAttributeInput, required=True, description="List of custom attributes to retrieve."),
-        description="Retrieve custom attributes associated with a product.",
-    )
-
-    @staticmethod
-    def resolve_productAttributes(_root, info: ResolveInfo, attributes):
-        # Implement the logic to retrieve custom attributes for the product
-        # You'll need to parse the input list of attributes and query the product
-        
-        # Example: Query the product by ID
-        product_id = attributes[0].product_id  # Assuming the product ID is the same for all attributes
-        product = Product.objects.get(id=product_id)
-        
-        # Implement logic to retrieve custom attributes based on the attributes list
-        
-        # Example: Retrieve custom attributes from the product
-        custom_attributes = [{"key": key, "value": value} for key, value in product.custom_attributes.items()]
-        
-        return custom_attributes
 
     @staticmethod
     def resolve_categories(_root, info: ResolveInfo, *, level=None, **kwargs):
@@ -570,7 +538,6 @@ class ProductQueries(graphene.ObjectType):
 
 
 class ProductMutations(graphene.ObjectType):
-    
     product_attribute_assign = ProductAttributeAssign.Field()
     product_attribute_assignment_update = ProductAttributeAssignmentUpdate.Field()
     product_attribute_unassign = ProductAttributeUnassign.Field()
@@ -641,7 +608,3 @@ class ProductMutations(graphene.ObjectType):
 
     variant_media_assign = VariantMediaAssign.Field()
     variant_media_unassign = VariantMediaUnassign.Field()
-
-    create_product_attribute = CreateProductAttribute.Field()
-    update_product_attribute = UpdateProductAttribute.Field()
-    delete_product_attribute = DeleteProductAttribute.Field()
