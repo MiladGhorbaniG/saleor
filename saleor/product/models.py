@@ -18,6 +18,7 @@ from measurement.measures import Weight
 from mptt.managers import TreeManager
 from mptt.models import MPTTModel
 from prices import Money
+from django.contrib.postgres.fields import JSONField
 
 from ..channel.models import Channel
 from ..core.db.fields import SanitizedJSONField
@@ -187,6 +188,7 @@ class Product(SeoModel, ModelWithMetadata, ModelWithExternalReference):
     search_document = models.TextField(blank=True, default="")
     search_vector = SearchVectorField(blank=True, null=True)
     search_index_dirty = models.BooleanField(default=False, db_index=True)
+    custom_attributes = JSONField(default=dict, blank=True)
 
     category = models.ForeignKey(
         Category,
@@ -376,6 +378,7 @@ class ProductVariant(SortableModel, ModelWithMetadata, ModelWithExternalReferenc
     )
 
     objects = managers.ProductVariantManager()
+    custom_attributes = JSONField(default=dict, blank=True)
 
     class Meta(ModelWithMetadata.Meta):
         ordering = ("sort_order", "sku")
