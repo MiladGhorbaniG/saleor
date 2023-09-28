@@ -4,7 +4,7 @@
    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/4006792/214636328-8e4f83e8-66cb-4114-a3d8-473eb908b9c3.png">
    <img width="200" alt="saleor-commerce-logo" src="https://user-images.githubusercontent.com/4006792/214636328-8e4f83e8-66cb-4114-a3d8-473eb908b9c3.png">
 
- </picture>
+</picture>
 </div>
 
 <div align="center">
@@ -55,6 +55,8 @@
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [Demo](#demo)
+- [GraphQL API](#graphql-api)
+- [Admin Panel](#admin-panel)
 - [Contributing](#contributing)
 - [Your feedback](#your-feedback)
 - [License](#license)
@@ -101,6 +103,7 @@ The current production-ready version is 3.x and you should use this version for 
 - Storefront: https://github.com/saleor/react-storefront/releases/
 
 ### Saleor Cloud
+
 The fastest way to develop with Saleor is by using developer accounts in [Saleor Cloud](https://cloud.saleor.io).
 
 Register [here](https://cloud.saleor.io/register) or install our [CLI tool](https://github.com/saleor/saleor-cli):
@@ -149,6 +152,18 @@ Want to see Saleor in action?
 * [View Dashboard (admin area)](https://demo.saleor.io/dashboard/)
 
 Login credentials: `admin@example.com`/`admin`
+
+### Custom Product Attributes
+
+Saleor now supports custom product attributes, allowing you to define unique product characteristics. With custom attributes, you can create, edit, and delete attributes for your products. For more information, refer to our [Custom Product Attributes Documentation](docs/custom_attributes_documentation.md).
+
+### GraphQL API
+
+Saleor provides a powerful GraphQL API for querying and managing your e-commerce data. You can use the API to retrieve custom product attributes associated with your products. Learn more in our [GraphQL Documentation](docs/graphql_documentation.md).
+
+### Admin Panel
+
+Manage your online store effortlessly with the Saleor Admin Panel. You can create, edit, and delete custom attributes for your products through the user-friendly admin interface. For step-by-step instructions, consult our [Admin Panel Documentation](docs/admin_panel_documentation.md).
 
 ## Contributing
 
