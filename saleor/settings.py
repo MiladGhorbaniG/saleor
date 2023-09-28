@@ -14,6 +14,7 @@ import django_stubs_ext
 import jaeger_client.config
 import pkg_resources
 import sentry_sdk
+from pathlib import Path
 import sentry_sdk.utils
 from celery.schedules import crontab
 from django.conf import global_settings
@@ -276,6 +277,13 @@ INSTALLED_APPS = [
     "django_filters",
     "phonenumber_field",
 ]
+
+# Custom app settings
+CUSTOM_ATTRIBUTES_DIR = Path(__file__).parent / "custom_attributes"
+CUSTOM_ATTRIBUTES_MODULE = "custom_attributes.queries"
+
+# Add custom app to installed apps
+INSTALLED_APPS.append(CUSTOM_ATTRIBUTES_MODULE)
 
 ENABLE_DJANGO_EXTENSIONS = get_bool_from_env("ENABLE_DJANGO_EXTENSIONS", False)
 if ENABLE_DJANGO_EXTENSIONS:
