@@ -5,6 +5,7 @@ from django.urls import reverse
 from graphene.test import Client
 from graphql_jwt.testcases import JSONWebTokenTestCase
 from .models import CustomAttribute
+from .schema import schema
 
 class CustomAttributeTests(JSONWebTokenTestCase):
     def setUp(self):
@@ -179,8 +180,34 @@ class CustomAttributeTests(JSONWebTokenTestCase):
 
     def test_performance(self):
         # Test performance of GraphQL queries and mutations under heavy load
-        # Create a large number of custom attributes and measure response times
-        pass  # Placeholder for performance testing
 
-    # Add more test cases for various scenarios as needed
+        # Create a large number of custom attributes for testing
+        num_attributes = 1000  # Adjust the number as needed
+        for i in range(num_attributes):
+            CustomAttribute.objects.create(
+                name=f"Attribute-{i}",
+                slug=f"attribute-{i}",
+                input_type="TEXT",
+                entity_type="PRODUCT",
+            )
+
+        # Measure the response time for a GraphQL query
+        query = '''
+        query {
+            listCustomAttributes {
+                id
+                name
+            }
+        }
+        '''
+        start_time = time.time()
+        response = self.client.execute(query)
+        end_time = time.time()
+
+        # Calculate the elapsed time in milliseconds
+        elapsed_time_ms = (end_time - start_time) * 1000
+
+        # Check the response status code and print the elapsed time
+        self.assertEqual(response.status_code, 200)
+        print(f"Elapsed time for query: {elapsed_time_ms:.2f} ms")
 
