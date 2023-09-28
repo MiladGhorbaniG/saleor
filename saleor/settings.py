@@ -249,6 +249,7 @@ INSTALLED_APPS = [
     "saleor.discount",
     "saleor.giftcard",
     "saleor.product",
+    'saleor.custom_attributes',
     "saleor.attribute",
     "saleor.channel",
     "saleor.checkout",
@@ -278,12 +279,6 @@ INSTALLED_APPS = [
     "phonenumber_field",
 ]
 
-# Custom app settings
-CUSTOM_ATTRIBUTES_DIR = Path(__file__).parent / "custom_attributes"
-CUSTOM_ATTRIBUTES_MODULE = "custom_attributes.queries"
-
-# Add custom app to installed apps
-INSTALLED_APPS.append(CUSTOM_ATTRIBUTES_MODULE)
 
 ENABLE_DJANGO_EXTENSIONS = get_bool_from_env("ENABLE_DJANGO_EXTENSIONS", False)
 if ENABLE_DJANGO_EXTENSIONS:
