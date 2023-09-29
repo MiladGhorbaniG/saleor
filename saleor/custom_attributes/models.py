@@ -1,5 +1,5 @@
 from django.db import models
-from ..attribute import AttributeInputTypeEnum, AttributeEntityTypeEnum
+from ..graphql.attribute.enums import AttributeInputTypeEnum, AttributeEntityTypeEnum
 
 class CustomAttribute(models.Model):
     name = models.CharField(max_length=255)
