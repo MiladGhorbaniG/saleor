@@ -6,23 +6,33 @@ from ..core.utils import str_to_enum
 
 # Define AttributeInputTypeEnum
 AttributeInputTypeEnum = to_enum(AttributeInputType)
-AttributeInputTypeEnum._meta.description = "Attribute input types."
-AttributeInputTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
+
+# Create a new Enum for AttributeInputTypeEnum with a description
+AttributeInputTypeEnumWithDescription = graphene.Enum(
+    "AttributeInputTypeEnumWithDescription",
+    [(str_to_enum(name.upper()), code) for code, name in AttributeInputType.CHOICES],
+)
+AttributeInputTypeEnumWithDescription._meta.description = "Attribute input types."
+AttributeInputTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
 
 # Define AttributeTypeEnum
 AttributeTypeEnum = to_enum(AttributeType)
-AttributeTypeEnum._meta.description = "Attribute types."
-AttributeTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
+
+# Create a new Enum for AttributeTypeEnum with a description
+AttributeTypeEnumWithDescription = graphene.Enum(
+    "AttributeTypeEnumWithDescription",
+    [(str_to_enum(name.upper()), code) for code, name in AttributeType.CHOICES],
+)
+AttributeTypeEnumWithDescription._meta.description = "Attribute types."
+AttributeTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
 
 # Define AttributeEntityTypeEnum
 AttributeEntityTypeEnum = to_enum(AttributeEntityType)
-AttributeEntityTypeEnum._meta.description = "Attribute entity types."
-AttributeEntityTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
 
-# Create a new Enum for AttributeEntityTypeEnum
-NewAttributeEntityTypeEnum = graphene.Enum(
-    "AttributeEntityTypeEnum",
+# Create a new Enum for AttributeEntityTypeEnum with a description
+AttributeEntityTypeEnumWithDescription = graphene.Enum(
+    "AttributeEntityTypeEnumWithDescription",
     [(str_to_enum(name.upper()), code) for code, name in AttributeEntityType.CHOICES],
 )
-NewAttributeEntityTypeEnum._meta.description = "Attribute entity types."
-NewAttributeEntityTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
+AttributeEntityTypeEnumWithDescription._meta.description = "Attribute entity types."
+AttributeEntityTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
