@@ -1,27 +1,28 @@
 from django.db import models
 from ..graphql.attribute.enums import AttributeInputTypeEnum, AttributeEntityTypeEnum
 
-# Function to convert GraphQL enum to Django model choices
-def get_input_type_choices():
-    return [(choice.name, choice.name) for choice in AttributeInputTypeEnum]
+# Define choices for the input_type and entity_type fields
+INPUT_TYPE_CHOICES = [
+    (choice.name, choice.name)
+    for choice in AttributeInputTypeEnum._meta.enum.values()
+]
 
-def get_entity_type_choices():
-    return [(choice.name, choice.name) for choice in AttributeEntityTypeEnum]
+ENTITY_TYPE_CHOICES = [
+    (choice.name, choice.name)
+    for choice in AttributeEntityTypeEnum._meta.enum.values()
+]
 
 class CustomAttribute(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-
-    # Use the functions to get choices
     input_type = models.CharField(
         max_length=50,
-        choices=get_input_type_choices(),
+        choices=INPUT_TYPE_CHOICES,
     )
     entity_type = models.CharField(
         max_length=50,
-        choices=get_entity_type_choices(),
+        choices=ENTITY_TYPE_CHOICES,
     )
-
     unit = models.CharField(max_length=50, blank=True, null=True)
     choices = models.JSONField(default=list)  # Store choices as JSON data
 
