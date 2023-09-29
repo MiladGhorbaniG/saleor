@@ -1,5 +1,5 @@
 from django.db import models
-from ..product.types import AttributeInputTypeEnum, AttributeEntityTypeEnum
+from ..attribute import AttributeInputTypeEnum, AttributeEntityTypeEnum
 
 class CustomAttribute(models.Model):
     name = models.CharField(max_length=255)
