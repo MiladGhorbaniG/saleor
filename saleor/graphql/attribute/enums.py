@@ -1,44 +1,28 @@
 import graphene
-
 from ...attribute import AttributeEntityType, AttributeInputType, AttributeType
 from ..core.doc_category import DOC_CATEGORY_ATTRIBUTES
+from ..core.enums import to_enum
 from ..core.utils import str_to_enum
 
-# Create a GraphQL enum for AttributeInputType
-class AttributeInputTypeEnum(graphene.Enum):
-    STRING = "STRING"
-    INTEGER = "INTEGER"
-    FLOAT = "FLOAT"
+# Define AttributeInputTypeEnum
+AttributeInputTypeEnum = to_enum(AttributeInputType)
+AttributeInputTypeEnum._meta.description = "Attribute input types."
+AttributeInputTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
 
-    # Add more attribute input types as needed
+# Define AttributeTypeEnum
+AttributeTypeEnum = to_enum(AttributeType)
+AttributeTypeEnum._meta.description = "Attribute types."
+AttributeTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
 
-    class Meta:
-        description = "Attribute input types."
-        doc_category = DOC_CATEGORY_ATTRIBUTES
+# Define AttributeEntityTypeEnum
+AttributeEntityTypeEnum = to_enum(AttributeEntityType)
+AttributeEntityTypeEnum._meta.description = "Attribute entity types."
+AttributeEntityTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
 
-# Create a GraphQL enum for AttributeType
-class AttributeTypeEnum(graphene.Enum):
-    PRODUCT = "PRODUCT"
-    VARIANT = "VARIANT"
-
-    # Add more attribute types as needed
-
-    class Meta:
-        description = "Attribute types."
-        doc_category = DOC_CATEGORY_ATTRIBUTES
-
-# Create a GraphQL enum for AttributeEntityType
-class AttributeEntityTypeEnum(graphene.Enum):
-    PRODUCT = "PRODUCT"
-    VARIANT = "VARIANT"
-
-    # Add more attribute entity types as needed
-
-    class Meta:
-        description = "Attribute entity types."
-        doc_category = DOC_CATEGORY_ATTRIBUTES
-
-# Map Django enum choices to GraphQL enum values for AttributeEntityTypeEnum
-AttributeEntityTypeEnum._meta.enum = {
-    str_to_enum(name.upper()): code for code, name in AttributeEntityType.CHOICES
-}
+# Create a new Enum for AttributeEntityTypeEnum
+NewAttributeEntityTypeEnum = graphene.Enum(
+    "AttributeEntityTypeEnum",
+    [(str_to_enum(name.upper()), code) for code, name in AttributeEntityType.CHOICES],
+)
+NewAttributeEntityTypeEnum._meta.description = "Attribute entity types."
+NewAttributeEntityTypeEnum.doc_category = DOC_CATEGORY_ATTRIBUTES
