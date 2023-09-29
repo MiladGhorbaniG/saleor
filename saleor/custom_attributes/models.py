@@ -3,13 +3,16 @@ from ..graphql.attribute.enums import AttributeInputTypeEnum, AttributeEntityTyp
 
 # Define choices for the input_type and entity_type fields
 INPUT_TYPE_CHOICES = [
-    (choice.name, choice.name)
-    for choice in AttributeInputTypeEnum._meta.enum.values()
+    ("TEXT", "Text"),
+    ("BOOLEAN", "Boolean"),
+    ("NUMBER", "Number"),
+    # Add more choices as needed based on your GraphQL enum
 ]
 
 ENTITY_TYPE_CHOICES = [
-    (choice.name, choice.name)
-    for choice in AttributeEntityTypeEnum._meta.enum.values()
+    ("PRODUCT", "Product"),
+    ("VARIANT", "Variant"),
+    # Add more choices as needed based on your GraphQL enum
 ]
 
 class CustomAttribute(models.Model):
