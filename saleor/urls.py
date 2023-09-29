@@ -69,5 +69,4 @@ if settings.DEBUG:
     urlpatterns += static("/media/", document_root=settings.MEDIA_ROOT) + [
         re_path(r"^static/(?P<path>.*)$", serve),
         re_path(r"^$", views.home, name="home"),
-        re_path('custom-attributes/', include('custom_attributes.urls')),
     ]

@@ -249,6 +249,7 @@ INSTALLED_APPS = [
     "saleor.discount",
     "saleor.giftcard",
     "saleor.product",
+    "saleor.custom_attributes",
     "saleor.attribute",
     "saleor.channel",
     "saleor.checkout",
