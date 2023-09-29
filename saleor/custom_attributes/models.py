@@ -1,5 +1,4 @@
 from django.db import models
-from ..product.models import AttributeChoiceValue
 from ..product.types import AttributeInputTypeEnum, AttributeEntityTypeEnum
 
 class CustomAttribute(models.Model):
@@ -14,7 +13,7 @@ class CustomAttribute(models.Model):
         choices=AttributeEntityTypeEnum.CHOICES,
     )
     unit = models.CharField(max_length=50, blank=True, null=True)
-    choices = models.ManyToManyField(AttributeChoiceValue)
+    choices = models.JSONField(default=list)  # Store choices as JSON data
 
     def __str__(self):
         return self.name
