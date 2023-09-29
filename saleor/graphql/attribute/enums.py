@@ -8,31 +8,55 @@ from ..core.utils import str_to_enum
 AttributeInputTypeEnum = to_enum(AttributeInputType)
 
 # Create a new Enum for AttributeInputTypeEnum with a description
-AttributeInputTypeEnumWithDescription = graphene.Enum(
-    "AttributeInputTypeEnumWithDescription",
-    [(str_to_enum(name.upper()), code) for code, name in AttributeInputType.CHOICES],
-)
-AttributeInputTypeEnumWithDescription._meta.description = "Attribute input types."
-AttributeInputTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
+class AttributeInputTypeEnumWithDescription(graphene.Enum):
+    DESCRIPTION = "Attribute input types."
+    DOC_CATEGORY = DOC_CATEGORY_ATTRIBUTES
+    @classmethod
+    def get_description(cls):
+        return cls.DESCRIPTION
+
+    @classmethod
+    def get_doc_category(cls):
+        return cls.DOC_CATEGORY
+
+    @classmethod
+    def get_enum_name(cls, enum_value):
+        return enum_value.name
 
 # Define AttributeTypeEnum
 AttributeTypeEnum = to_enum(AttributeType)
 
 # Create a new Enum for AttributeTypeEnum with a description
-AttributeTypeEnumWithDescription = graphene.Enum(
-    "AttributeTypeEnumWithDescription",
-    [(str_to_enum(name.upper()), code) for code, name in AttributeType.CHOICES],
-)
-AttributeTypeEnumWithDescription._meta.description = "Attribute types."
-AttributeTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
+class AttributeTypeEnumWithDescription(graphene.Enum):
+    DESCRIPTION = "Attribute types."
+    DOC_CATEGORY = DOC_CATEGORY_ATTRIBUTES
+    @classmethod
+    def get_description(cls):
+        return cls.DESCRIPTION
+
+    @classmethod
+    def get_doc_category(cls):
+        return cls.DOC_CATEGORY
+
+    @classmethod
+    def get_enum_name(cls, enum_value):
+        return enum_value.name
 
 # Define AttributeEntityTypeEnum
 AttributeEntityTypeEnum = to_enum(AttributeEntityType)
 
 # Create a new Enum for AttributeEntityTypeEnum with a description
-AttributeEntityTypeEnumWithDescription = graphene.Enum(
-    "AttributeEntityTypeEnumWithDescription",
-    [(str_to_enum(name.upper()), code) for code, name in AttributeEntityType.CHOICES],
-)
-AttributeEntityTypeEnumWithDescription._meta.description = "Attribute entity types."
-AttributeEntityTypeEnumWithDescription.doc_category = DOC_CATEGORY_ATTRIBUTES
+class AttributeEntityTypeEnumWithDescription(graphene.Enum):
+    DESCRIPTION = "Attribute entity types."
+    DOC_CATEGORY = DOC_CATEGORY_ATTRIBUTES
+    @classmethod
+    def get_description(cls):
+        return cls.DESCRIPTION
+
+    @classmethod
+    def get_doc_category(cls):
+        return cls.DOC_CATEGORY
+
+    @classmethod
+    def get_enum_name(cls, enum_value):
+        return enum_value.name
