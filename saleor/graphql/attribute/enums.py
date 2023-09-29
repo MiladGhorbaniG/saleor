@@ -38,11 +38,6 @@ class AttributeEntityTypeEnum(graphene.Enum):
         description = "Attribute entity types."
         doc_category = DOC_CATEGORY_ATTRIBUTES
 
-# Optionally, you can set descriptions and doc categories for each enum.
-AttributeInputTypeEnum._meta.description = "Attribute input types."
-AttributeTypeEnum._meta.description = "Attribute types."
-AttributeEntityTypeEnum._meta.description = "Attribute entity types."
-
 # Map Django enum choices to GraphQL enum values for AttributeEntityTypeEnum
 AttributeEntityTypeEnum._meta.enum = {
     str_to_enum(name.upper()): code for code, name in AttributeEntityType.CHOICES
