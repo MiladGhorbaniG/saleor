@@ -236,6 +236,7 @@ INSTALLED_APPS = [
     # External apps that need to go before django's
     "storages",
     # Django modules
+    'custom_attributes',
     "django.contrib.contenttypes",
     "django.contrib.sites",
     "django.contrib.staticfiles",
