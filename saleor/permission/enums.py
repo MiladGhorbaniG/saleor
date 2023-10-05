@@ -78,6 +78,8 @@ class ProductTypePermissions(BasePermissionEnum):
 class ShippingPermissions(BasePermissionEnum):
     MANAGE_SHIPPING = "shipping.manage_shipping"
 
+class CustomAttributePermissions(BasePermissionEnum):
+    MANAGE_ATTRIBUTES = "product.manage_custom_attributes"
 
 class SitePermissions(BasePermissionEnum):
     MANAGE_SETTINGS = "site.manage_settings"
@@ -85,6 +87,7 @@ class SitePermissions(BasePermissionEnum):
 
 
 PERMISSIONS_ENUMS = [
+    CustomAttributePermissions,
     AccountPermissions,
     AppPermission,
     CheckoutPermissions,

@@ -1,8 +1,9 @@
 import graphene
+from graphql import GraphQLError
 
 from ...permission.enums import ProductPermissions
 from ...permission.utils import has_one_of_permissions
-from ...product.models import ALL_PRODUCTS_PERMISSIONS
+from ...product.models import ALL_PRODUCTS_PERMISSIONS , CUSTOM_ATTIBUTES_PERMISSION
 from ...product.search import search_products
 from ..channel import ChannelContext, ChannelQsContext
 from ..channel.utils import get_default_channel_slug_or_graphql_error
@@ -142,6 +143,10 @@ from .types import (
 )
 from .utils import check_for_sorting_by_rank
 
+class ProductAttribute(graphene.ObjectType):
+    # Define the structure of the custom product attribute type
+    name = graphene.String(description="Name of the custom attribute")
+    value = graphene.String(description="Value of the custom attribute")
 
 class ProductQueries(graphene.ObjectType):
     digital_content = PermissionsField(
@@ -332,6 +337,45 @@ class ProductQueries(graphene.ObjectType):
         ],
         doc_category=DOC_CATEGORY_PRODUCTS,
     )
+
+    product_attributes = graphene.Field(
+        graphene.List(ProductAttribute),
+        product_id=graphene.ID(required=True, description="ID of the product"),
+        description="Retrieve custom attributes associated with a product",
+    )
+
+    @staticmethod
+    def resolve_product_attributes(_root, info, product_id):
+        
+        requestor = get_user_or_app_from_context(info.context)
+
+        has_required_permissions = has_one_of_permissions(
+            requestor, CUSTOM_ATTIBUTES_PERMISSION
+        )
+        if has_required_permissions:
+            try:
+                # Fetch the product based on the provided product_id
+                product = Product.objects.get(pk=product_id)
+                
+                # Fetch the custom attributes associated with the product
+                custom_attributes = ProductAttribute.objects.filter(product=product)
+                
+                # Serialize the custom attributes into the ProductAttribute type
+                serialized_attributes = [
+                    ProductAttribute(name=attr.name, value=attr.value)
+                    for attr in custom_attributes
+                ]
+                
+                return serialized_attributes
+            except Product.DoesNotExist:
+                # Handle the case where the product does not exist
+                raise GraphQLError("Product not found")
+            except Exception as e:
+                # Handle other exceptions as needed
+                raise GraphQLError(str(e))
+        else:
+            raise GraphQLError("Permission denied")
+
 
     @staticmethod
     def resolve_categories(_root, info: ResolveInfo, *, level=None, **kwargs):

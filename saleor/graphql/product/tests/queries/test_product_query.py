@@ -7,6 +7,13 @@ from django.contrib.sites.models import Site
 from django.core.files import File
 from django.utils import timezone
 from measurement.measures import Weight
+import json
+import pytest
+from django.test import TestCase
+from django.urls import reverse
+from graphene.test import Client
+from graphql_jwt.testcases import JSONWebTokenTestCase
+from django.contrib.auth.models import User, Permission
 
 from .....attribute.models import AttributeValue
 from .....attribute.utils import associate_attribute_values_to_instance
@@ -43,6 +50,189 @@ QUERY_PRODUCT = """
     }
 """
 
+
+
+def test_list_custom_attributes():
+    client = Client()  # Create a GraphQL client
+
+    # Test the list_custom_attributes GraphQL query
+    query = '''
+    query {
+        listCustomAttributes {
+            id
+            name
+            slug
+            inputType
+            entityType
+            unit
+        }
+    }
+    '''
+    response = client.post(reverse('graphql'), json.dumps({'query': query}), content_type='application/json')
+    assert response.status_code == 200
+    data = response.json()
+
+    # Add your assertions here to verify the response data
+
+def test_create_custom_attribute_mutation():
+    client = Client()  # Create a GraphQL client
+
+    # Test the createCustomAttribute GraphQL mutation
+    mutation = '''
+    mutation ($input: CustomAttributeInput!) {
+        createCustomAttribute(input: $input) {
+            customAttribute {
+                id
+                name
+                slug
+                inputType
+                entityType
+                unit
+            }
+        }
+    }
+    '''
+    variables = {
+        "input": {
+            "name": "Material",
+            "slug": "material",
+            "inputType": "TEXT",
+            "entityType": "VARIANT",
+            "unit": None
+        }
+    }
+    response = client.post(reverse('graphql'), json.dumps({'query': mutation, 'variables': variables}), content_type='application/json')
+    assert response.status_code == 200
+    data = response.json()
+
+    # Add your assertions here to verify the response data
+
+def test_update_custom_attribute_mutation():
+    client = Client()  # Create a GraphQL client
+
+    # Test the updateCustomAttribute GraphQL mutation
+    mutation = '''
+    mutation ($id: ID!, $input: CustomAttributeInput!) {
+        updateCustomAttribute(id: $id, input: $input) {
+            customAttribute {
+                id
+                name
+                slug
+                inputType
+                entityType
+                unit
+            }
+        }
+    }
+    '''
+    variables = {
+        "id": "REPLACE_WITH_ATTRIBUTE_ID",  # Replace with the ID of the custom attribute to update
+        "input": {
+            "name": "New Color",
+            "slug": "new-color",
+            "inputType": "RADIO",
+            "entityType": "VARIANT",
+            "unit": None
+        }
+    }
+    response = client.post(reverse('graphql'), json.dumps({'query': mutation, 'variables': variables}), content_type='application/json')
+    assert response.status_code == 200
+    data = response.json()
+
+    # Add your assertions here to verify the response data
+
+def test_delete_custom_attribute_mutation():
+    client = Client()  # Create a GraphQL client
+
+    # Test the deleteCustomAttribute GraphQL mutation
+    mutation = '''
+    mutation ($id: ID!) {
+        deleteCustomAttribute(id: $id) {
+            success
+        }
+    }
+    '''
+    variables = {
+        "id": "REPLACE_WITH_ATTRIBUTE_ID",  # Replace with the ID of the custom attribute to delete
+    }
+    # Ensure only authorized users with permission can delete attributes
+    user = User.objects.create_user(username="testuser", password="testpassword")
+    user.user_permissions.add(Permission.objects.get(codename="delete_customattribute"))
+    client.login(username="testuser", password="testpassword")
+    response = client.post(reverse('graphql'), json.dumps({'query': mutation, 'variables': variables}), content_type='application/json')
+    assert response.status_code == 200
+    data = response.json()
+
+    # Add your assertions here to verify the response data
+
+def test_invalid_inputs():
+    client = Client()  # Create a GraphQL client
+
+    # Test mutations with invalid input data (e.g., missing required fields, incorrect data types)
+    mutation = '''
+    mutation ($input: CustomAttributeInput!) {
+        createCustomAttribute(input: $input) {
+            customAttribute {
+                id
+            }
+        }
+    }
+    '''
+    variables = {
+        "input": {
+            "name": "",  # Missing required field
+            "slug": "invalid-slug",  # Invalid slug
+            "inputType": "INVALID_TYPE",  # Invalid input type
+            "entityType": "VARIANT",
+            "unit": None
+        }
+    }
+    response = client.post(reverse('graphql'), json.dumps({'query': mutation, 'variables': variables}), content_type='application/json')
+    assert response.status_code == 400  # Expect a validation error
+
+def test_edge_cases():
+    client = Client()  # Create a GraphQL client
+
+    # Test edge cases, such as empty attribute lists, large data sets, etc.
+    # Edge case: Test when there are no custom attributes
+    query = '''
+    query {
+        listCustomAttributes {
+            id
+        }
+    }
+    '''
+    response = client.post(reverse('graphql'), json.dumps({'query': query}), content_type='application/json')
+    assert response.status_code == 200
+    data = response.json()
+
+    # Add your assertions here to verify the response data
+
+def test_performance():
+    client = Client()  # Create a GraphQL client
+
+    # Test performance of GraphQL queries and mutations under heavy load
+
+    # Measure the response time for a GraphQL query
+    query = '''
+    query {
+        listCustomAttributes {
+            id
+            name
+        }
+    }
+    '''
+    import time
+    start_time = time.time()
+    response = client.post(reverse('graphql'), json.dumps({'query': query}), content_type='application/json')
+    end_time = time.time()
+
+    # Calculate the elapsed time in milliseconds
+    elapsed_time_ms = (end_time - start_time) * 1000
+
+    # Check the response status code and print the elapsed time
+    assert response.status_code == 200
+    print(f"Elapsed time for query: {elapsed_time_ms:.2f} ms")
 
 def test_product_query_by_id_available_as_staff_user(
     staff_api_client, permission_manage_products, product, channel_USD

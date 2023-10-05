@@ -40,6 +40,7 @@ from ..permission.enums import (
     OrderPermissions,
     ProductPermissions,
     ProductTypePermissions,
+    CustomAttributePermissions,
 )
 from ..seo.models import SeoModel, SeoModelTranslation
 from ..tax.models import TaxClass
@@ -57,6 +58,9 @@ ALL_PRODUCTS_PERMISSIONS = [
     ProductPermissions.MANAGE_PRODUCTS,
 ]
 
+CUSTOM_ATTIBUTES_PERMISSION = [
+    CustomAttributePermissions.MANAGE_ATTRIBUTES
+]
 
 class Category(ModelWithMetadata, MPTTModel, SeoModel):
     name = models.CharField(max_length=250)

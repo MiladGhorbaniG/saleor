@@ -114,6 +114,17 @@ DATABASES = {
     ),
 }
 
+DATABASES = {
+    DATABASE_CONNECTION_DEFAULT_NAME: dj_database_url.config(
+        default="postgres://myprojectuser:password@localhost:5432/myproject",
+        conn_max_age=DB_CONN_MAX_AGE,
+    ),
+    DATABASE_CONNECTION_REPLICA_NAME: dj_database_url.config(
+        default="postgres://myprojectuser:password@localhost:5432/myproject",
+        conn_max_age=DB_CONN_MAX_AGE,
+    ),
+}
+
 DATABASE_ROUTERS = ["saleor.core.db_routers.PrimaryReplicaRouter"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
@@ -437,10 +448,12 @@ TEST_RUNNER = "saleor.tests.runner.PytestTestRunner"
 PLAYGROUND_ENABLED = get_bool_from_env("PLAYGROUND_ENABLED", True)
 
 ALLOWED_HOSTS = get_list(os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1"))
+ALLOWED_HOSTS.append('3.84.255.168')
+# ALLOWED_HOSTS = ['3.84.255.168']
 ALLOWED_GRAPHQL_ORIGINS: List[str] = get_list(
     os.environ.get("ALLOWED_GRAPHQL_ORIGINS", "*")
 )
-
+PATTERNS_IGNORED_IN_QUERY_CAPTURES = []
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Amazon S3 configuration
